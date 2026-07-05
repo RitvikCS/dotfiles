@@ -1,2 +1,9 @@
 keybind = ctrl+shift+space=toggle_quick_terminal
 theme = Catppuccin Mocha
+
+# No GTK client-side decorations: Hyprland tiles/decorates the window.
+# CSD reserves an invisible shadow margin that can show as a gap at the edges.
+window-decoration = none
+
+# Translucent background; Hyprland's decoration.blur frosts whatever is behind.
+background-opacity = 0.85

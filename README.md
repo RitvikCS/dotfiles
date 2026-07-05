@@ -121,6 +121,8 @@ Full list: `config/hypr/modules/keybindings.lua`.
   Hyprland IPC; 0.55 wants Lua form — waiting on a waybar release).
 - Waybar **tray menus** (nm-applet, blueman) don't open.
 - The powermenu side image paints a split second late (rofi async image load; accepted).
+- ghostty shows a hairline sliver below the window at 1.25 fractional scale (GTK buffer
+  rounding; `window-decoration = none` already reduced it — not fixable app-side).
 
 ## Credits
 
