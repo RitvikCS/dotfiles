@@ -1,0 +1,348 @@
+/* ─────────────────────────────────────────────────────────────
+ * Waybar · floating dark islands
+ * Palette: Catppuccin Mocha
+ * ───────────────────────────────────────────────────────────── */
+
+@define-color crust     #11111b;
+@define-color mantle    #181825;
+@define-color base      #1e1e2e;
+@define-color surface0  #313244;
+@define-color surface1  #45475a;
+@define-color overlay0  #6c7086;
+@define-color subtext   #a6adc8;
+@define-color text      #cdd6f4;
+
+@define-color lavender  #b4befe;
+@define-color blue      #89b4fa;
+@define-color sapphire  #74c7ec;
+@define-color teal      #94e2d5;
+@define-color green     #a6e3a1;
+@define-color yellow    #f9e2af;
+@define-color peach     #fab387;
+@define-color red       #f38ba8;
+@define-color mauve     #cba6f7;
+@define-color pink      #f5c2e7;
+
+* {
+    font-family: "JetBrainsMono Nerd Font", "JetBrainsMono Nerd Font Propo", sans-serif;
+    font-size: 13.5px;
+    font-weight: 600;
+    min-height: 0;
+    border: none;
+    border-radius: 0;
+}
+
+/* Bar itself is invisible — the three islands float on the wallpaper */
+window#waybar {
+    background: transparent;
+    color: @text;
+}
+
+/* ── Islands ────────────────────────────────────────────────── */
+
+.modules-left,
+.modules-center,
+.modules-right {
+    background: alpha(@crust, 0.92);
+    border: 1px solid alpha(@surface0, 0.9);
+    border-radius: 19px;
+    padding: 0 6px;
+}
+
+/* Left side is two islands (waypaper pill + main group), so the
+   container itself goes invisible and the children carry the look */
+.modules-left {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+}
+
+#left-main {
+    background: alpha(@crust, 0.92);
+    border: 1px solid alpha(@surface0, 0.9);
+    border-radius: 19px;
+    padding: 0 6px;
+}
+
+/* Every module gets the same breathing room + smooth hover */
+#workspaces,
+#window,
+#clock,
+#mpris,
+#tray,
+#custom-chip,
+#cpu,
+#memory,
+#temperature,
+#pulseaudio,
+#battery,
+#custom-power,
+#custom-lock,
+#custom-suspend,
+#custom-quit,
+#custom-reboot,
+#custom-shutdown {
+    padding: 0 11px;
+    margin: 4px 2px;
+    border-radius: 13px;
+    background: transparent;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Waypaper button (Arch logo mini-island, toggles the picker) ── */
+
+#custom-waypaper {
+    color: @blue;
+    font-size: 15px;
+    padding: 0 21px 0 17px;   /* glyph has a right-leaning bearing; bias 2px left */
+    margin-right: 8px;
+    background: alpha(@crust, 0.92);
+    border: 1px solid alpha(@surface0, 0.9);
+    border-radius: 19px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#custom-waypaper:hover {
+    color: @sapphire;
+    background: alpha(@surface0, 0.9);
+}
+
+/* ── Workspaces ─────────────────────────────────────────────── */
+
+#workspaces {
+    padding: 0 4px;
+    margin: 4px 2px;
+}
+
+/* V7.1-style: buttons keep a constant size in every state —
+   only colors animate, so switching never reflows the island */
+#workspaces button {
+    padding: 0 9px;
+    margin: 3px 2px;
+    border-radius: 11px;
+    color: @subtext;
+    background: alpha(@surface0, 0.45);
+    transition: background 0.4s ease, color 0.4s ease, box-shadow 0.4s ease;
+}
+
+#workspaces button:hover {
+    color: @text;
+    background: alpha(@surface1, 0.9);
+    box-shadow: none;
+    text-shadow: none;
+}
+
+#workspaces button.empty {
+    color: @overlay0;
+    background: transparent;
+}
+
+#workspaces button.active {
+    font-weight: 800;
+    color: @crust;
+    background: linear-gradient(115deg, @blue, @sapphire);
+    box-shadow: 0 2px 8px alpha(@blue, 0.35);
+}
+
+#workspaces button.urgent {
+    color: @crust;
+    background: @red;
+}
+
+/* ── Window title ───────────────────────────────────────────── */
+
+#window {
+    color: @subtext;
+    font-weight: 500;
+    font-style: italic;
+}
+
+window#waybar.empty #window {
+    background: transparent;
+    padding: 0;
+    margin: 0;
+}
+
+/* ── Clock ──────────────────────────────────────────────────── */
+
+#clock {
+    color: @blue;
+    font-weight: 700;
+    padding: 0 16px;
+}
+
+#clock:hover {
+    background: alpha(@surface0, 0.8);
+    color: @sapphire;
+}
+
+/* ── Media ──────────────────────────────────────────────────── */
+
+#mpris {
+    color: @pink;
+    font-weight: 500;
+}
+
+#mpris.paused {
+    color: @overlay0;
+    font-style: italic;
+}
+
+#mpris:hover {
+    background: alpha(@surface0, 0.8);
+}
+
+/* ── Tray ───────────────────────────────────────────────────── */
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+}
+
+/* ── Stats drawer (chip → cpu / mem / temp) ─────────────────── */
+
+#custom-chip {
+    color: @peach;
+    font-size: 15px;
+    padding: 0 12px;
+}
+
+#custom-chip:hover {
+    background: alpha(@surface0, 0.8);
+}
+
+#cpu         { color: @yellow; }
+#memory      { color: @teal; }
+#temperature { color: @green; }
+
+#temperature.critical {
+    color: @red;
+    animation: pulse-red 1s ease-in-out infinite alternate;
+}
+
+#cpu:hover,
+#memory:hover,
+#temperature:hover {
+    background: alpha(@surface0, 0.8);
+}
+
+/* ── Audio ──────────────────────────────────────────────────── */
+
+#pulseaudio { color: @blue; }
+
+#pulseaudio.muted {
+    color: @overlay0;
+}
+
+/* inline volume slider (slides out of the audio drawer) */
+#pulseaudio-slider {
+    padding: 0 8px;
+    margin: 4px 2px;
+}
+
+#pulseaudio-slider slider,
+#pulseaudio-slider slider:hover,
+#pulseaudio-slider slider:active {
+    /* fully invisible thumb — Orchis (Material) adds a hover ripple via
+       background-color, so clear color+image in every state */
+    min-width: 0;
+    min-height: 0;
+    opacity: 0;
+    background-color: transparent;
+    background-image: none;
+    border: none;
+    box-shadow: none;
+    margin: 0;
+    padding: 0;
+}
+
+#pulseaudio-slider trough {
+    min-width: 90px;
+    min-height: 8px;
+    border-radius: 4px;
+    background: @surface0;
+}
+
+#pulseaudio-slider highlight {
+    min-width: 8px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, @blue, @sapphire);
+}
+
+#pulseaudio:hover {
+    background: alpha(@surface0, 0.8);
+}
+
+/* ── Battery ────────────────────────────────────────────────── */
+
+#battery { color: @green; }
+
+#battery.charging,
+#battery.plugged {
+    color: @teal;
+}
+
+#battery.warning:not(.charging) {
+    color: @yellow;
+}
+
+#battery.critical:not(.charging) {
+    color: @red;
+    animation: pulse-red 0.9s ease-in-out infinite alternate;
+}
+
+#battery:hover {
+    background: alpha(@surface0, 0.8);
+}
+
+/* ── Power drawer ───────────────────────────────────────────── */
+
+#custom-power {
+    color: @red;
+    font-size: 15px;
+    padding: 0 13px;
+}
+
+#custom-power:hover {
+    background: alpha(@red, 0.15);
+}
+
+.power-child {
+    color: @subtext;
+    font-size: 15px;
+    padding: 0 9px;
+}
+
+#custom-lock:hover     { color: @crust; background: @green; }
+#custom-suspend:hover  { color: @crust; background: @sapphire; }
+#custom-quit:hover     { color: @crust; background: @yellow; }
+#custom-reboot:hover   { color: @crust; background: @peach; }
+#custom-shutdown:hover { color: @crust; background: @red; }
+
+/* ── Tooltips ───────────────────────────────────────────────── */
+
+tooltip {
+    background: alpha(@base, 0.97);
+    border: 1px solid @surface1;
+    border-radius: 13px;
+}
+
+tooltip label {
+    color: @text;
+    padding: 4px;
+}
+
+/* ── Animations ─────────────────────────────────────────────── */
+
+@keyframes pulse-red {
+    from {
+        color: @red;
+    }
+    to {
+        color: @yellow;
+    }
+}

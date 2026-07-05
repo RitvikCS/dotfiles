@@ -1,0 +1,41 @@
+# Mako · styled to match the waybar floating islands
+# (Catppuccin Mocha, JetBrainsMono, translucent crust + rounded border)
+# man 5 mako for all options — note: options are hyphenated.
+
+font=JetBrainsMono Nerd Font 11
+background-color=#11111bEB
+text-color=#cdd6f4
+border-color=#45475a
+border-size=1
+border-radius=9
+
+width=340
+height=120
+margin=10
+padding=12,14
+anchor=top-right
+
+# bold title, dimmed app name after it, body below
+format=<b>%s</b> <span color="#6c7086" size="small">%a</span>\n<span color="#a6adc8">%b</span>
+
+max-visible=4
+sort=-time
+icons=1
+max-icon-size=44
+
+default-timeout=3000
+
+# progress bar (e.g. volume/brightness notifications)
+progress-color=over #89b4fa
+
+[urgency=low]
+border-color=#313244
+text-color=#a6adc8
+default-timeout=2500
+
+[urgency=critical]
+border-color=#f38ba8
+default-timeout=0
+
+[mode=do-not-disturb]
+invisible=1

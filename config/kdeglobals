@@ -1,0 +1,9 @@
+[General]
+ColorScheme=OrchisDark
+widgetStyle=kvantum
+
+[Icons]
+Theme=Papirus-Dark
+
+[KDE]
+ShowDeleteCommand=false

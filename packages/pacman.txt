@@ -1,0 +1,59 @@
+# Core Wayland desktop
+hyprland
+hypridle
+hyprlock
+hyprpaper
+hyprpolkitagent
+xdg-desktop-portal-hyprland
+waybar
+mako
+rofi
+grim
+slurp
+wl-clipboard
+
+# Audio
+pipewire
+pipewire-pulse
+wireplumber
+rtkit
+pavucontrol
+playerctl
+
+# Network / bluetooth
+networkmanager
+network-manager-applet
+blueman
+bluez
+bluez-utils
+
+# Theming
+orchis-theme
+papirus-icon-theme
+kvantum
+qt6ct-kde
+nwg-look
+ttf-jetbrains-mono-nerd
+ttf-nerd-fonts-symbols
+woff2-font-awesome
+
+# Apps
+ghostty
+nautilus
+loupe
+btop
+htop
+vim
+git
+github-cli
+firefox
+
+# Utilities
+brightnessctl
+libnotify
+base-devel
+
+# Optional backups/extras kept installed on the original machine
+kitty
+dolphin
+obsidian

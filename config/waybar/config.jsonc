@@ -1,0 +1,229 @@
+// Waybar — Hyprland · floating dark islands
+// Font: JetBrainsMono Nerd Font · Palette: Catppuccin Mocha
+{
+    "layer": "top",
+    "position": "top",
+    "height": 38,
+    "margin-top": 8,
+    "margin-left": 14,
+    "margin-right": 14,
+    "spacing": 0,
+    "reload_style_on_change": true,
+
+    "modules-left": ["custom/waypaper", "group/left-main"],
+    "modules-center": ["clock"],
+    "modules-right": [
+        "mpris",
+        "group/stats",
+        "tray",
+        "group/audio",
+        "battery",
+        "group/power"
+    ],
+
+    "hyprland/workspaces": {
+        "format": "{id}",
+        "on-scroll-up": "hyprctl dispatch workspace e-1",
+        "on-scroll-down": "hyprctl dispatch workspace e+1",
+        "persistent-workspaces": {
+            "*": 5
+        }
+    },
+
+    "hyprland/window": {
+        "format": "{}",
+        "max-length": 42,
+        "separate-outputs": true,
+        "icon": false,
+        "rewrite": {
+            "(.*) — Mozilla Firefox": "󰈹  $1",
+            "(.*) - Visual Studio Code": "󰨞  $1",
+            "(.*) - nvim": "󰕷  $1",
+            "(.*)zsh": "󰆍  $1",
+            "(.*)ghostty": "󰆍  $1"
+        }
+    },
+
+    "clock": {
+        "format": "󰥔  {:%I:%M %p}",
+        "format-alt": "󰃭  {:%a, %b %d %Y}",
+        "tooltip-format": "<big>{:%B %Y}</big>\n<tt><small>{calendar}</small></tt>",
+        "calendar": {
+            "mode": "month",
+            "on-scroll": 1,
+            "format": {
+                "months":   "<span color='#89b4fa'><b>{}</b></span>",
+                "days":     "<span color='#cdd6f4'>{}</span>",
+                "weekdays": "<span color='#f9e2af'><b>{}</b></span>",
+                "today":    "<span color='#f38ba8'><b><u>{}</u></b></span>"
+            }
+        },
+        "actions": {
+            "on-click-right": "mode",
+            "on-scroll-up": "shift_up",
+            "on-scroll-down": "shift_down"
+        }
+    },
+
+    "mpris": {
+        "format": "{status_icon}  {dynamic}",
+        "dynamic-order": ["title", "artist"],
+        "dynamic-len": 32,
+        "status-icons": {
+            "playing": "󰎈",
+            "paused": "󰏤",
+            "stopped": "󰓛"
+        },
+        "tooltip-format": "{player} · {title}\n{artist} — {album}",
+        "on-click": "playerctl play-pause",
+        "on-scroll-up": "playerctl next",
+        "on-scroll-down": "playerctl previous"
+    },
+
+    "tray": {
+        "icon-size": 16,
+        "spacing": 10
+    },
+
+    // Hover the chip icon to slide out cpu / memory / temperature
+    "group/stats": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 400,
+            "transition-left-to-right": false,
+            "children-class": "stats-child"
+        },
+        "modules": ["custom/chip", "cpu", "memory", "temperature"]
+    },
+
+    "custom/waypaper": {
+        "format": "",
+        "tooltip-format": "Wallpapers",
+        "on-click": "pkill -x waypaper || waypaper"
+    },
+
+    // Workspaces + window title share the main left island;
+    // the waypaper button sits outside as its own mini-island
+    "group/left-main": {
+        "orientation": "inherit",
+        "modules": ["hyprland/workspaces", "hyprland/window"]
+    },
+
+    "custom/chip": {
+        "format": "󰓅",
+        "tooltip-format": "Click for btop",
+        "on-click": "~/.config/waybar/scripts/btop-popup.sh"
+    },
+
+    "cpu": {
+        "format": "󰻠 {usage}%",
+        "interval": 3,
+        "on-click": "~/.config/waybar/scripts/btop-popup.sh"
+    },
+
+    "memory": {
+        "format": "󰍛 {percentage}%",
+        "interval": 5,
+        "tooltip-format": "{used:0.1f} GiB / {total:0.1f} GiB used"
+    },
+
+    "temperature": {
+        // If this reads the wrong sensor, run `sensors` and set
+        // "hwmon-path": "/sys/class/hwmon/hwmonX/tempY_input"
+        "critical-threshold": 82,
+        "format": "󰔏 {temperatureC}°",
+        "interval": 5
+    },
+
+    // Hover the volume to slide out an inline slider
+    "group/audio": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 400,
+            "transition-left-to-right": false,
+            "children-class": "audio-child"
+        },
+        "modules": ["pulseaudio", "pulseaudio/slider"]
+    },
+
+    "pulseaudio": {
+        "format": "{icon}  {volume}%",
+        "format-muted": "󰝟  mute",
+        "format-bluetooth": "󰂰  {volume}%",
+        "format-icons": {
+            "headphone": "󰋋",
+            "default": ["󰕿", "󰖀", "󰕾"]
+        },
+        "scroll-step": 3,
+        "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+        "on-click-right": "pavucontrol",
+        "tooltip-format": "{desc}"
+    },
+
+    "pulseaudio/slider": {
+        "min": 0,
+        "max": 100,
+        "orientation": "horizontal"
+    },
+
+    "battery": {
+        "bat": "BAT0",
+        "states": {
+            "warning": 25,
+            "critical": 12
+        },
+        "format": "{icon}  {capacity}%",
+        "format-charging": "󱐋 {capacity}%",
+        "format-plugged": "󰚥  {capacity}%",
+        "format-icons": ["󰁺", "󰁼", "󰁾", "󰂀", "󰁹"],
+        "tooltip-format": "{timeTo}\n{power:0.1f} W draw"
+    },
+
+    // Hover the power icon to slide out lock / suspend / logout / reboot / shutdown
+    "group/power": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 400,
+            "transition-left-to-right": false,
+            "children-class": "power-child"
+        },
+        "modules": [
+            "custom/power",
+            "custom/lock",
+            "custom/suspend",
+            "custom/quit",
+            "custom/reboot",
+            "custom/shutdown"
+        ]
+    },
+
+    "custom/power": {
+        "format": "⏻",
+        "tooltip-format": "Power menu (hover)"
+    },
+    "custom/lock": {
+        "format": "󰌾",
+        "tooltip-format": "Lock",
+        "on-click": "loginctl lock-session"
+    },
+    "custom/suspend": {
+        "format": "󰤄",
+        "tooltip-format": "Suspend",
+        "on-click": "systemctl suspend"
+    },
+    "custom/quit": {
+        "format": "󰗽",
+        "tooltip-format": "Exit Hyprland",
+        "on-click": "hyprctl dispatch exit"
+    },
+    "custom/reboot": {
+        "format": "󰜉",
+        "tooltip-format": "Reboot",
+        "on-click": "systemctl reboot"
+    },
+    "custom/shutdown": {
+        "format": "󰐥",
+        "tooltip-format": "Shutdown",
+        "on-click": "systemctl poweroff"
+    }
+}

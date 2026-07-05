@@ -1,0 +1,13 @@
+/**
+ * Catppuccin Mocha, blue accent — matches launchers/type-6/style-7
+ * (repo import replaced with inline palette)
+ **/
+
+* {
+    background:                  #1E1E2E;
+    background-alt:              #313244;
+    foreground:                  #CDD6F4;
+    selected:                    #89B4FA;
+    active:                      #A6E3A1;
+    urgent:                      #F38BA8;
+}
