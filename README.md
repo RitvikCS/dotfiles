@@ -13,6 +13,9 @@ blue `#89B4FA` accent throughout.
 | Lock / idle | hyprlock (boots straight into the lock screen) + hypridle |
 | Wallpapers | waypaper + hyprpaper (Super+W picker) |
 | Terminal | ghostty |
+| Shell | bash — starship prompt (Catppuccin powerline, blue ramp), fzf, zoxide, eza, bat |
+| Editor | Neovim + LazyVim (`config/nvim/`, plugins pinned via lazy-lock.json) |
+| Multiplexer | herdr (agent-aware; AUR `herdr-bin`) |
 | Files | Nautilus (Super+E); Dolphin kept as backup |
 | Qt theming | Kvantum OrchisDark + qt6ct-kde |
 | GTK theming | Orchis-Dark widgets, Papirus-Dark icons, stock Adwaita-dark for libadwaita apps (deliberate — see gotchas) |
@@ -76,8 +79,12 @@ config/          → symlinked to ~/.config/<name>
   waybar/        config.jsonc, style.css, scripts/
   rofi/          config.rasi (launcher theme via @theme line), launchers/,
                  powermenu/ (type-6 = active), colors/, images/
+  nvim/          LazyVim (starter-based; lazy-lock.json pins plugins;
+                 lua/plugins/explorer.lua focuses the list so a/d/r work)
   mako/  waypaper/  ghostty/  Kvantum/  qt6ct/
   gtk-3.0/settings.ini  gtk-4.0/settings.ini  kdeglobals  mimeapps.list
+  starship.toml  Catppuccin powerline recolored to the blue ramp (PUA glyphs
+                 inside — cp only, never retype; starship-minimal.toml = alternate)
 home/            → ~/.bash_profile (tty1 → Hyprland), ~/.bashrc
 fonts/           Icomoon-Feather.ttf, BebasNeue-Regular.ttf, GrapeNuts-Regular.ttf
 color-schemes/   OrchisDark/QogirDark/CatppuccinMochaBlue .colors

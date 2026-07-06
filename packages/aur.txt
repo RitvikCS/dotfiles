@@ -3,3 +3,4 @@ waypaper
 kvantum-theme-orchis-git
 colloid-icon-theme-git
 zen-browser-bin
+herdr-bin

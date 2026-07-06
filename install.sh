@@ -41,13 +41,14 @@ link() { # link <repo-relative-src> <absolute-dst>
 }
 
 say "Linking configs (anything replaced goes to $BACKUP)"
-for d in hypr waybar rofi mako waypaper ghostty Kvantum qt6ct; do
+for d in hypr waybar rofi mako waypaper ghostty Kvantum qt6ct nvim; do
     link "config/$d" "$HOME/.config/$d"
 done
 link config/gtk-3.0/settings.ini "$HOME/.config/gtk-3.0/settings.ini"
 link config/gtk-4.0/settings.ini "$HOME/.config/gtk-4.0/settings.ini"
 link config/kdeglobals           "$HOME/.config/kdeglobals"
 link config/mimeapps.list        "$HOME/.config/mimeapps.list"
+link config/starship.toml        "$HOME/.config/starship.toml"
 link home/bash_profile           "$HOME/.bash_profile"
 link home/bashrc                 "$HOME/.bashrc"
 

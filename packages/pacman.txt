@@ -53,6 +53,18 @@ brightnessctl
 libnotify
 base-devel
 
+# Terminal stack (starship prompt, LazyVim deps, modern CLI tools)
+neovim
+lazygit
+tree-sitter-cli
+starship
+fzf
+fd
+ripgrep
+zoxide
+eza
+bat
+
 # Optional backups/extras kept installed on the original machine
 kitty
 dolphin

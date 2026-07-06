@@ -5,8 +5,26 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-alias ls='ls --color=auto'
 alias grep='grep --color=auto'
-PS1='[\u@\h \W]\$ '
+PS1='[\u@\h \W]\$ '   # fallback; starship overrides below
 export PATH="$HOME/.local/bin:$PATH"
 set -o vi
+
+# --- modern replacements ---
+alias ls='eza --icons'
+alias ll='eza -l --icons --git'
+alias la='eza -la --icons --git'
+alias tree='eza --tree --icons'
+alias cat='bat --paging=never'
+
+# --- fzf: Ctrl+R history, Ctrl+T files, Alt+C cd ---
+eval "$(fzf --bash)"
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
+
+# --- zoxide: z <dir> jumps, zi picks interactively ---
+eval "$(zoxide init bash)"
+
+# --- prompt ---
+eval "$(starship init bash)"
