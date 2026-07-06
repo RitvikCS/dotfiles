@@ -57,6 +57,13 @@ say "Installing bundled fonts"
 mkdir -p "$HOME/.local/share/fonts"
 cp -f "$DOTS/fonts/"*.ttf "$HOME/.local/share/fonts/"
 fc-cache -f >/dev/null
+
+# ---------- KDE color schemes ----------
+# kdeglobals sets ColorScheme=OrchisDark; without the .colors file KDE apps
+# silently fall back to default colors. Qogir/Catppuccin are the kept fallbacks.
+say "Installing KDE color schemes"
+mkdir -p "$HOME/.local/share/color-schemes"
+cp -f "$DOTS/color-schemes/"*.colors "$HOME/.local/share/color-schemes/"
 # Nerd Fonts v2 "Complete" TTFs shadow the system v3 JetBrainsMono and break rofi glyphs.
 if find "$HOME/.local/share/fonts" -iname "*nerd*complete*" | grep -q .; then
     echo "WARNING: Nerd Fonts v2 'Complete' TTFs found in ~/.local/share/fonts —"
@@ -72,8 +79,22 @@ gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'  || true
 mkdir -p "$HOME/Pictures/wallpapers"   # waypaper library (Super+W)
 
 # ---------- system-level (sudo) ----------
-if ask "Enable NetworkManager + Bluetooth services (sudo)?"; then
+if ask "Enable NetworkManager + Bluetooth + NTP time sync (sudo)?"; then
     sudo systemctl enable --now NetworkManager bluetooth
+    sudo timedatectl set-ntp true   # a fresh install once ran hours behind
+fi
+
+# KService/ksycoca (Dolphin & friends) needs a freedesktop menu file to enumerate
+# apps at all; plasma-workspace normally ships it, but bare Hyprland has no Plasma.
+# Without it every KDE "Open With" list is empty and file associations never stick.
+# Pairs with XDG_MENU_PREFIX=plasma- set in config/hypr/modules/env.lua.
+if ask "Install /etc/xdg/menus/plasma-applications.menu (sudo)? Fixes KDE-app file associations on bare Hyprland"; then
+    sudo mkdir -p /etc/xdg/menus
+    sudo cp "$DOTS/system/plasma-applications.menu" /etc/xdg/menus/plasma-applications.menu
+    if command -v kbuildsycoca6 >/dev/null; then
+        rm -f "$HOME/.cache/ksycoca6"*
+        XDG_MENU_PREFIX=plasma- kbuildsycoca6 --noincremental >/dev/null 2>&1 || true
+    fi
 fi
 
 if ask "Install getty@tty1 autologin (sudo)? Boot flow: autologin -> bash_profile execs Hyprland -> hyprlock"; then
@@ -87,6 +108,10 @@ fi
 say "Done."
 echo "  - Reboot (or log out) to start Hyprland."
 echo "  - Drop wallpapers into ~/Pictures/wallpapers, pick one with Super+W."
+echo "  - Wallpapers are NOT bundled. hyprlock.conf's background is an ABSOLUTE path"
+echo "    (/home/csrit/Pictures/wallpapers/wall4.jpg) and hyprpaper.conf's first-paint"
+echo "    fallback expects wall3.png — edit those paths (and the username!) or the"
+echo "    lock screen / first paint will be a plain background. Not a breakage."
 echo "  - NVIDIA users: env vars live in config/hypr/modules/env.lua (already set up)."
 echo "  - Non-NVIDIA users: comment out the nvidia lines in config/hypr/modules/env.lua."
 echo "  - Check config/hypr/modules/monitors.lua matches your display."

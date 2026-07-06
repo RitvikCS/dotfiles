@@ -34,16 +34,24 @@ The script is interactive and re-runnable. It:
    (repo stays the source of truth; anything it would replace is backed up to
    `~/.dotfiles-backup-<timestamp>/`).
 3. Installs the bundled fonts and warns if Nerd Fonts **v2** leftovers are present
-   (they shadow the v3 system font and break icons).
+   (they shadow the v3 system font and break icons), plus the KDE color schemes
+   (`kdeglobals` points at OrchisDark — without the `.colors` file KDE apps
+   silently fall back to default colors).
 4. Applies the gsettings not stored in files (GTK theme / icons / dark mode).
-5. Optionally (sudo): enables NetworkManager + Bluetooth, and installs the
-   **getty@tty1 autologin** override (rewritten for the current `$USER`).
+5. Optionally (sudo): enables NetworkManager + Bluetooth + NTP, installs the
+   **getty@tty1 autologin** override (rewritten for the current `$USER`), and
+   installs `/etc/xdg/menus/plasma-applications.menu` (see the KDE-apps gotcha —
+   skip it and Dolphin's "Open With" stays empty).
 
 ### Manual / machine-specific steps
 
 - **Wallpapers are not in the repo** — drop yours into `~/Pictures/wallpapers`,
   then Super+W to pick. `config/waypaper/config.ini` records the last pick with an
   absolute path; waypaper rewrites it at runtime, so first launch just resets it.
+  Two configs reference specific files: `hyprlock.conf`'s background is the
+  **absolute path** `/home/csrit/Pictures/wallpapers/wall4.jpg` (username included —
+  edit it for your user or the lock screen is a plain background) and
+  `hyprpaper.conf`'s first-paint fallback expects `wall3.png`. Cosmetic only.
 - **Boot flow** (what autologin buys you): LUKS passphrase → getty autologin on tty1 →
   `~/.bash_profile` `exec start-hyprland` → hyprlock is the first thing on screen.
   Disk encryption itself is installer-time setup and out of scope here.
@@ -72,7 +80,10 @@ config/          → symlinked to ~/.config/<name>
   gtk-3.0/settings.ini  gtk-4.0/settings.ini  kdeglobals  mimeapps.list
 home/            → ~/.bash_profile (tty1 → Hyprland), ~/.bashrc
 fonts/           Icomoon-Feather.ttf, BebasNeue-Regular.ttf, GrapeNuts-Regular.ttf
+color-schemes/   OrchisDark/QogirDark/CatppuccinMochaBlue .colors
+                 → ~/.local/share/color-schemes/ (kdeglobals needs OrchisDark)
 system/          getty-autologin.conf → /etc/systemd/system/getty@tty1.service.d/
+                 plasma-applications.menu → /etc/xdg/menus/ (KDE-apps gotcha)
 packages/        pacman.txt, aur.txt
 install.sh
 ```
@@ -114,6 +125,17 @@ Full list: `config/hypr/modules/keybindings.lua`.
   stock Adwaita-dark for those apps is intentional.
 - **Nerd Fonts v2 vs v3**: the font family is "JetBrainsMono Nerd Font" (v3, no space).
   Old v2 "Complete" TTFs in `~/.local/share/fonts` shadow it and break icons.
+- **KDE apps on bare Hyprland (Dolphin's empty "Open With")**: KDE apps resolve file
+  associations through KService/ksycoca, not `mimeapps.list`. That cache needs
+  (a) `XDG_MENU_PREFIX=plasma-` in the environment (set in `config/hypr/modules/env.lua`;
+  a real Plasma session exports it, Hyprland doesn't) and (b) the menu file it points
+  at, `/etc/xdg/menus/plasma-applications.menu` (normally shipped by `plasma-workspace`,
+  which is deliberately not installed — the installer ships a minimal hand-written one).
+  If either is missing, `kbuildsycoca6` builds an **empty** app database and every KDE
+  Open-With list is blank for *every* file type, defaults never stick. Debug order:
+  `xdg-mime query default <type>` → `printenv XDG_MENU_PREFIX` (inside the KDE app's
+  env) → `ls /etc/xdg/menus/` → `journalctl --user | grep applications.menu` after
+  `kbuildsycoca6 --noincremental`.
 
 ## Known issues (upstream, not config bugs)
 
