@@ -25,7 +25,6 @@ $conda\
 [](fg:lavender bg:surface1)\
 $time\
 [ ](fg:surface1)\
-$cmd_duration\
 $line_break\
 $character"""
 
@@ -168,7 +167,7 @@ vimcmd_visual_symbol = '[❮](bold fg:yellow)'
 show_milliseconds = false
 format = " took $duration "
 style = "fg:overlay0"
-disabled = false
+disabled = true
 show_notifications = true
 min_time_to_notify = 45000
 
