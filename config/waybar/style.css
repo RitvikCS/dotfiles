@@ -156,12 +156,18 @@ window#waybar {
     color: @subtext;
     font-weight: 500;
     font-style: italic;
+    /* fade the title in/out, but never tween padding/width: size animation
+       resizes the island's surface every frame, which Hyprland can't do
+       smoothly → the "expanding stutter". Opacity is repaint-only. */
+    opacity: 1;
+    transition: opacity 0.25s ease;
 }
 
 window#waybar.empty #window {
     background: transparent;
     padding: 0;
     margin: 0;
+    opacity: 0;
 }
 
 /* ── Clock ──────────────────────────────────────────────────── */
