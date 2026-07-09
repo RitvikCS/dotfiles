@@ -106,6 +106,15 @@ if ask "Install getty@tty1 autologin (sudo)? Boot flow: autologin -> bash_profil
     say "Autologin installed for user: $USER"
 fi
 
+# Always-on box: no suspend/hibernate from any source, closing the lid does nothing.
+# hypridle and the rofi powermenu are configured to match (no suspend entries).
+if ask "Disable suspend & ignore laptop lid (sudo)? Masks sleep targets, machine stays on with lid closed"; then
+    sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
+    sudo mkdir -p /etc/systemd/logind.conf.d
+    sudo cp "$DOTS/system/logind-lid-nosuspend.conf" /etc/systemd/logind.conf.d/10-lid-nosuspend.conf
+    say "Suspend disabled. The lid setting applies after a reboot (don't restart logind in a live session)."
+fi
+
 say "Done."
 echo "  - Reboot (or log out) to start Hyprland."
 echo "  - Drop wallpapers into ~/Pictures/wallpapers, pick one with Super+W."

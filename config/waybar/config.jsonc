@@ -179,7 +179,7 @@
         "tooltip-format": "{timeTo}\n{power:0.1f} W draw"
     },
 
-    // Hover the power icon to slide out lock / suspend / logout / reboot / shutdown
+    // Hover the power icon to slide out lock / logout / reboot / shutdown
     "group/power": {
         "orientation": "inherit",
         "drawer": {
@@ -190,7 +190,6 @@
         "modules": [
             "custom/power",
             "custom/lock",
-            "custom/suspend",
             "custom/quit",
             "custom/reboot",
             "custom/shutdown"
@@ -206,15 +205,10 @@
         "tooltip-format": "Lock",
         "on-click": "loginctl lock-session"
     },
-    "custom/suspend": {
-        "format": "󰤄",
-        "tooltip-format": "Suspend",
-        "on-click": "systemctl suspend"
-    },
     "custom/quit": {
         "format": "󰗽",
         "tooltip-format": "Exit Hyprland",
-        "on-click": "hyprctl dispatch exit"
+        "on-click": "hyprctl dispatch 'hl.dsp.exit()'"
     },
     "custom/reboot": {
         "format": "󰜉",

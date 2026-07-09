@@ -10,7 +10,7 @@ local mainMod = "SUPER" -- Sets "Windows" key as main modifier
 hl.bind(mainMod .. " + Q", hl.dsp.exec_cmd(programs.terminal))
 local closeWindowBind = hl.bind(mainMod .. " + C", hl.dsp.window.close())
 -- closeWindowBind:set_enabled(false)
-hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("pkill -x rofi || ~/.config/rofi/powermenu/type-6/powermenu.sh")) -- power menu (toggle; pristine type-6 style-1, see ~/Docs/handoff-powermenu.md
+hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("pkill -x rofi || ~/.config/rofi/powermenu/type-6/powermenu.sh")) -- power menu (toggle; type-6 style-1, 2x2: suspend/hibernate removed)
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(programs.fileManager))
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen()) -- toggle; also the only way OUT of fullscreen (titlebar hides in it)

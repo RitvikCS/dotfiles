@@ -114,7 +114,7 @@ textbox {
 listview {
     enabled:                     true;
     columns:                     2;
-    lines:                       3;
+    lines:                       2;
     cycle:                       true;
     dynamic:                     true;
     scrollbar:                   false;

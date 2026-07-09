@@ -19,11 +19,9 @@ uptime="`uptime -p | sed -e 's/up //g'`"
 host=`cat /etc/hostname`
 
 # Options
-hibernate=''
 shutdown=''
 reboot=''
 lock=''
-suspend=''
 logout=''
 yes=''
 no=''
@@ -56,7 +54,7 @@ confirm_exit() {
 
 # Pass variables to rofi dmenu
 run_rofi() {
-	echo -e "$lock\n$suspend\n$logout\n$hibernate\n$reboot\n$shutdown" | rofi_cmd
+	echo -e "$lock\n$logout\n$reboot\n$shutdown" | rofi_cmd
 }
 
 # Execute Command
@@ -67,11 +65,6 @@ run_cmd() {
 			systemctl poweroff
 		elif [[ $1 == '--reboot' ]]; then
 			systemctl reboot
-		elif [[ $1 == '--hibernate' ]]; then
-			systemctl hibernate
-		elif [[ $1 == '--suspend' ]]; then
-			playerctl pause 2>/dev/null
-			systemctl suspend
 		elif [[ $1 == '--logout' ]]; then
 			# Hyprland 0.55 Lua form; classic `dispatch exit` silently fails
 			hyprctl dispatch 'hl.dsp.exit()'
@@ -90,14 +83,8 @@ case ${chosen} in
     $reboot)
 		run_cmd --reboot
         ;;
-    $hibernate)
-		run_cmd --hibernate
-        ;;
     $lock)
 		loginctl lock-session
-        ;;
-    $suspend)
-		run_cmd --suspend
         ;;
     $logout)
 		run_cmd --logout

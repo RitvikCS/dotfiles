@@ -42,9 +42,12 @@ The script is interactive and re-runnable. It:
    silently fall back to default colors).
 4. Applies the gsettings not stored in files (GTK theme / icons / dark mode).
 5. Optionally (sudo): enables NetworkManager + Bluetooth + NTP, installs the
-   **getty@tty1 autologin** override (rewritten for the current `$USER`), and
+   **getty@tty1 autologin** override (rewritten for the current `$USER`),
    installs `/etc/xdg/menus/plasma-applications.menu` (see the KDE-apps gotcha —
-   skip it and Dolphin's "Open With" stays empty).
+   skip it and Dolphin's "Open With" stays empty), and can **disable
+   suspend/lid-sleep** for an always-on box (masks the systemd sleep targets +
+   logind lid drop-in; hypridle/powermenu/waybar ship without suspend entries
+   to match).
 
 ### Manual / machine-specific steps
 
@@ -91,6 +94,7 @@ color-schemes/   OrchisDark/QogirDark/CatppuccinMochaBlue .colors
                  → ~/.local/share/color-schemes/ (kdeglobals needs OrchisDark)
 system/          getty-autologin.conf → /etc/systemd/system/getty@tty1.service.d/
                  plasma-applications.menu → /etc/xdg/menus/ (KDE-apps gotcha)
+                 logind-lid-nosuspend.conf → /etc/systemd/logind.conf.d/10-… (lid = no-op)
 packages/        pacman.txt, aur.txt
 install.sh
 ```
