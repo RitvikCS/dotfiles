@@ -64,6 +64,7 @@ ripgrep
 zoxide
 eza
 bat
+fnm
 
 # Optional backups/extras kept installed on the original machine
 kitty

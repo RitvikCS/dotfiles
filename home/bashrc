@@ -6,7 +6,7 @@
 [[ $- != *i* ]] && return
 
 alias grep='grep --color=auto'
-PS1='[\u@\h \W]\$ '   # fallback; starship overrides below
+PS1='[\u@\h \W]\$ ' # fallback; starship overrides below
 export PATH="$HOME/.local/bin:$PATH"
 set -o vi
 
@@ -16,6 +16,9 @@ alias ll='eza -l --icons --git'
 alias la='eza -la --icons --git'
 alias tree='eza --tree --icons'
 alias cat='bat --paging=never'
+alias v='nvim'
+alias vb='nvim ~/.bashrc'
+alias sb='source ~/.bashrc'
 
 # --- fzf: Ctrl+R history, Ctrl+T files, Alt+C cd ---
 eval "$(fzf --bash)"
@@ -28,3 +31,4 @@ eval "$(zoxide init bash)"
 
 # --- prompt ---
 eval "$(starship init bash)"
+eval "$(fnm env --use-on-cd --shell bash)"
